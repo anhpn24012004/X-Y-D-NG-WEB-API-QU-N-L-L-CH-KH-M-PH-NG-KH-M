@@ -7,7 +7,7 @@ namespace CliniApi.Application.Interfaces
     {
         Task<Result<IEnumerable<PatientDto>>> GetAllAsync();
         Task<Result<PatientDto>> GetByIdAsync(int id);
-        Task<Result<PatientDto>> CreateAsync(CreateDoctorDto dto);
-        Task<Result<PatientDto>> UpdateAsync(int id, UpdateDoctorDto dto);
+        Task<Result<PatientDto>> CreateAsync(CreatePatientDto dto);
+        Task<Result<PatientDto>> UpdateAsync(int id, UpdatePatientDto dto);
     }
 }

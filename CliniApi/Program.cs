@@ -1,10 +1,23 @@
 using CliniApi.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using CliniApi.Application.Interfaces;
+using CliniApi.Application.Mappings;
+using CliniApi.Infrastructure.UnitOfWork;
+using CliniApi.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ClinicDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn")));
+
+builder.Services.AddAutoMapper(typeof(ClinicProfile));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<ISpecialtyService, SpecialtyService>();
+builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IMedicalServiceService, MedicalServiceService>();
+builder.Services.AddScoped<IDoctorService, DoctorService>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 
 // Add services to the container.
 builder.Services.AddControllers();
