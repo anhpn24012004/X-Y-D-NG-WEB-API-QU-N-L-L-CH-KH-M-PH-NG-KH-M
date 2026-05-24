@@ -4,7 +4,7 @@ namespace CliniApi.Application.Interfaces
 {
     public interface IUnitOfWork
     {
-        IGenericRepository<Doctor> Doctors { get; }
+        IDoctorRepository Doctors { get; }
         IGenericRepository<Patient> Patients { get; }
         IGenericRepository<MedicalService> MedicalServices { get; }
         IGenericRepository<Specialty> Specialties { get; }

@@ -8,7 +8,7 @@ namespace CliniApi.Infrastructure.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ClinicDbContext _context;
-        public IGenericRepository<Doctor> Doctors { get; }
+        public IDoctorRepository Doctors { get; }
 
         public IGenericRepository<Patient> Patients { get; }
 
@@ -20,7 +20,7 @@ namespace CliniApi.Infrastructure.UnitOfWork
         {
             _context = context;
 
-            Doctors = new GenericRepository<Doctor>(context);
+            Doctors = new DoctorRepository(context);
             Patients = new GenericRepository<Patient>(context);
             MedicalServices = new GenericRepository<MedicalService>(context);
             Specialties = new GenericRepository<Specialty>(context);

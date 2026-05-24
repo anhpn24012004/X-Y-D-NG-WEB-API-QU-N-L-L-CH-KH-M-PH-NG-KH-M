@@ -19,7 +19,7 @@ namespace CliniApi.Application.Services
 
         public async Task<Result<IEnumerable<DoctorDto>>> GetAllAsync()
         {
-            var doctors = await _unitOfWork.Doctors.GetAllAsync();
+            var doctors = await _unitOfWork.Doctors.GetAllWithSpecialtyAsync();
             var data = _mapper.Map<IEnumerable<DoctorDto>>(doctors);
 
             return Result<IEnumerable<DoctorDto>>.Ok(data);
@@ -27,7 +27,7 @@ namespace CliniApi.Application.Services
 
         public async Task<Result<DoctorDto>> GetByIdAsync(int id)
         {
-            var doctor = await _unitOfWork.Doctors.GetByIdAsync(id);
+            var doctor = await _unitOfWork.Doctors.GetByIdWithSpecialtyAsync(id);
 
             if (doctor == null)
                 return Result<DoctorDto>.Fail("Doctor not found", StatusCodes.Status404NotFound);

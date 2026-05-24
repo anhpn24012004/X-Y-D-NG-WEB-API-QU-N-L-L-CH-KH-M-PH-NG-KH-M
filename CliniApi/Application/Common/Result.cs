@@ -49,7 +49,7 @@ namespace CliniApi.Application.Common
             Data = data
         };
 
-        public static Result<T> Fail(string message, int statusCode = StatusCodes.Status400BadRequest) => new()
+        public new static Result<T> Fail(string message, int statusCode = StatusCodes.Status400BadRequest) => new()
         {
             Success = false,
             Message = message,
