@@ -1,9 +1,12 @@
+using CliniApi.Formatters;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using CliniApi.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using CliniApi.Application.Interfaces;
 using CliniApi.Application.Mappings;
 using CliniApi.Infrastructure.UnitOfWork;
 using CliniApi.Application.Services;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +23,14 @@ builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.OutputFormatters.Add(new CsvOutputFormatter());
+    options.InputFormatters.Add(new CsvInputFormatter());
+
+    options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+    options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
+});
 
 // Swagger for .NET 8
 builder.Services.AddEndpointsApiExplorer();
