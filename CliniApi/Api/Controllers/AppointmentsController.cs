@@ -30,6 +30,7 @@ namespace CliniApi.Api.Controllers
         }
 
         [HttpPost]
+        [Consumes("application/json")]
         public async Task<IActionResult> Create(CreateAppointmentDto dto)
         {
             var result = await _appointmentService.CreateAsync(dto);
@@ -37,6 +38,7 @@ namespace CliniApi.Api.Controllers
         }
 
         [HttpPut("{id}/cancel")]
+        [Consumes("application/json")]
         public async Task<IActionResult> Cancel(int id, CancelAppointmentDto dto)
         {
             var result = await _appointmentService.CancelAsync(id, dto);
@@ -44,6 +46,7 @@ namespace CliniApi.Api.Controllers
         }
 
         [HttpPut("{id}/complete")]
+        [Consumes("application/json")]
         public async Task<IActionResult> Complete(int id, CompleteAppointmentDto dto)
         {
             var result = await _appointmentService.CompleteAsync(id, dto);

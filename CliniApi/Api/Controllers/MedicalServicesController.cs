@@ -29,6 +29,7 @@ namespace CliniApi.Api.Controllers
         }
 
         [HttpPost]
+        [Consumes("application/json")]
         public async Task<IActionResult> Create(CreateMedicalServiceDto dto)
         {
             var result = await _medicalServiceService.CreateAsync(dto);
@@ -36,6 +37,7 @@ namespace CliniApi.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Consumes("application/json")]
         public async Task<IActionResult> Update(int id, UpdateMedicalServiceDto dto)
         {
             var result = await _medicalServiceService.UpdateAsync(id, dto);
