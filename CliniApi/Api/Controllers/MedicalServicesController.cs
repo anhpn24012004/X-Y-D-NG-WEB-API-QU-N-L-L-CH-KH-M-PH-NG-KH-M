@@ -15,6 +15,7 @@ namespace CliniApi.Api.Controllers
         }
 
         [HttpGet]
+        [Consumes("application/json")]
         public async Task<IActionResult> GetAll()
         {
             var result = await _medicalServiceService.GetAllActiveAsync();
@@ -22,6 +23,7 @@ namespace CliniApi.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Consumes("application/json")]
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _medicalServiceService.GetByIdAsync(id);

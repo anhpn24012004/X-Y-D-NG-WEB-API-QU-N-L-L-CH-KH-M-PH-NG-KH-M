@@ -6,7 +6,11 @@ using CliniApi.Application.Interfaces;
 using CliniApi.Application.Mappings;
 using CliniApi.Infrastructure.UnitOfWork;
 using CliniApi.Application.Services;
-using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
+using CliniApi.Domain.Entities;
+using AppointmentServiceImpl = CliniApi.Application.Services.AppointmentService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +24,7 @@ builder.Services.AddScoped<ISpecialtyService, SpecialtyService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IMedicalServiceService, MedicalServiceService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
-builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IAppointmentService, AppointmentServiceImpl>();
 
 // Add services to the container.
 builder.Services.AddControllers(options =>
@@ -30,7 +34,19 @@ builder.Services.AddControllers(options =>
 
     options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
     options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
-});
+})
+    .AddOData(options =>
+    {
+        options.Select()
+            .Filter()
+            .OrderBy()
+            .Count()
+            .Expand()
+            .SetMaxTop(100)
+            .EnableQueryFeatures();
+
+        options.AddRouteComponents("odata", GetEdmModel());
+    });
 
 // Swagger for .NET 8
 builder.Services.AddEndpointsApiExplorer();
@@ -52,3 +68,12 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+static IEdmModel GetEdmModel()
+{
+    var builder = new ODataConventionModelBuilder();
+
+    builder.EntitySet<Patient>("ODataPatients");
+    builder.EntitySet<Appointment>("ODataAppointments");
+
+    return builder.GetEdmModel();
+}
